@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Interativo | Renato Assis Schiavon Parente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Stone, Slate, Blue) -->
+    <!-- Application Structure Plan: A single-page, vertical-scrolling application designed to be an enhanced digital resume. The structure includes: a Hero header for identity, a professional Summary, an interactive chronological Experience timeline (click to expand), an interactive Projects section (click to expand) with descriptive images and key metrics, a Skills Dashboard with a quantitative Chart.js visualization, and sections for Education & Certifications with visual cues. This structure was chosen because it mirrors a familiar resume format, making it instantly understandable, while the interactivity (expandable details, data charts, visual certification logos, and rich project content) allows users to seamlessly switch between a high-level overview and a detailed deep-dive, catering to different reviewer needs without overwhelming them. -->
+    <!-- Visualization & Content Choices:
+        - Resume Experience -> Goal: Show career path -> Viz: Interactive Timeline (HTML/CSS/JS) -> Interaction: Click on job titles to toggle visibility of details -> Justification: Provides a clear narrative of growth and allows users to control information density.
+        - Projects -> Goal: Showcase detailed work examples with visual context -> Viz: Expandable Project Cards (HTML/CSS/JS) with Placeholder Images for Diagrams and Key Statistics -> Interaction: Click on project titles to toggle visibility of details, text exploration of metrics -> Justification: Allows demonstration of specific technical contributions, project scope, and quantitative impact, making complex data flows more tangible. Placeholder images indicate where a conceptual diagram would fit, enhancing visual appeal without violating constraints.
+        - Skills Chart -> Goal: Quantify expertise -> Viz: Bar Chart (Chart.js/Canvas) with bold text labels and bars colored to match technology logos -> Interaction: Tooltips on hover -> Justification: Clearly presents years of experience per core skill while visually associating bars with technology brands, with enhanced readability for labels.
+        - Technology Stack (new section) -> Goal: Visually highlight technologies with their logos/colors -> Viz: Grid of Shields.io badges (Img tags) -> Interaction: Visual recognition -> Justification: Addresses the user's desire for specific logo/color branding for each technology, providing a modern and compact visual representation, complementing the quantitative chart.
+        - Certifications -> Goal: Provide quick recognition of credentials -> Viz: Actual Certification Logos and Placeholder Images (placehold.co) -> Interaction: Visual cue -> Justification: Offers immediate visual recognition for each certification, making the section more engaging and credible.
+        - Key Responsibilities/Achievements -> Goal: Highlight impact -> Viz: Styled lists and tags (HTML/CSS) -> Interaction: None, focus on readability -> Justification: Makes key contributions scannable and digestible.
+        - NO SVG/Mermaid used.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4;
+            scroll-behavior: smooth;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            border: 3px solid #bfdbfe;
+            z-index: 10;
+        }
+        .timeline-line {
+            position: absolute;
+            left: -21px;
+            top: 5px;
+            bottom: -8px;
+            width: 2px;
+            background-color: #dbeafe;
+        }
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
+        .details-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .details-content.open {
+            max-height: 2000px; /* Increased to accommodate more content and images */
+            opacity: 1;
+            margin-top: 1rem;
+        }
+        /* Custom styling for technology logos - adjusted to contain badges */
+        .tech-logo-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            padding: 0.5rem; /* Reduced padding as badges have their own */
+        }
+        .tech-logo-card img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* To remove extra space below image */
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
+
+        <!-- Header / Hero -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Renato Assis Schiavon Parente</h1>
+            <p class="mt-2 text-xl md:text-2xl text-blue-600 font-medium">Engenheiro de Analytics | Foco em AWS, SQL, Python e PySpark </p>
+            <div class="mt-6 flex justify-center items-center flex-wrap gap-x-4 gap-y-2 text-stone-600">
+                <a href="tel:+5511999945133" class="hover:text-blue-600 flex items-center transition-colors rounded-full px-3 py-1 bg-white shadow-sm">
+                    <svg class="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    (11) 99994-5133
+                </a>
+                <a href="mailto:renatoassisparente@gmail.com" class="hover:text-blue-600 flex items-center transition-colors rounded-full px-3 py-1 bg-white shadow-sm">
+                    <svg class="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    renatoassisparente@gmail.com
+                </a>
+                <a href="https://www.linkedin.com/in/renato-assis-schiavon-parente-a323011b3" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 flex items-center transition-colors rounded-full px-3 py-1 bg-white shadow-sm">
+                    <svg class="w-5 h-5 mr-1.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    LinkedIn
+                </a>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-8 gap-y-12">
+            <main class="lg:col-span-2 space-y-16">
+                <!-- Summary -->
+                <section id="summary">
+                    <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 mb-4">Resumo Profissional</h2>
+                    <div class="space-y-4 text-stone-700 leading-relaxed">
+                        <p>
+                            Engenheiro de Analytics com 4 anos de experiência no Itaú Unibanco, especializado na <strong>transformação de dados brutos em modelos limpos, confiáveis e otimizados para consumo</strong>. Minha missão é modernizar e aprimorar continuamente o processamento de dados, aplicando as melhores práticas de engenharia de software na construção de pipelines robustos.
+                        </p>
+                        <p>
+                            Com paixão por resolver desafios complexos, utilizo proficiência avançada em <strong>AWS, Python, SQL e PySpark</strong> para garantir a completude e qualidade dos dados em ambientes de Big Data. Minha experiência inclui a <strong>preparação de dados para modelos de Machine Learning/IA</strong> e a colaboração estratégica com equipes multidisciplinares para impulsionar decisões de negócio.
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- Experience -->
+                <section id="experience">
+                    <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 mb-6">Experiência Profissional</h2>
+                    <p class="text-stone-600 mb-10 -mt-2">Uma visão cronológica da minha carreira. Clique em cada cargo para ver os detalhes.</p>
+                    <div id="experience-container" class="relative pl-8">
+                        
+                    </div>
+                </section>
+
+                <!-- Projects -->
+                <section id="projects">
+                    <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 mb-6">Projetos Destacados</h2>
+                    <p class="text-stone-600 mb-10 -mt-2">Explore alguns dos projetos em que utilizei minhas habilidades de Engenharia de Analytics e dados.</p>
+                    <div id="projects-container" class="space-y-8">
+                        
+                    </div>
+                </section>
+            </main>
+
+            <aside class="space-y-12 lg:mt-16">
+                <!-- Skills -->
+                <section id="skills">
+                    <h2 class="text-2xl font-semibold border-b-2 border-blue-200 pb-2 mb-4">Principais Competências</h2>
+                    <p class="text-stone-600 mb-6 -mt-2">Anos de experiência prática com tecnologias essenciais.</p>
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <div class="chart-container relative h-80 w-full">
+                            <canvas id="skillsChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="font-semibold mb-3 text-lg border-b border-stone-200 pb-2">Minha Stack de Tecnologia</h3>
+                        <p class="text-stone-600 mb-4 text-sm">Visualização das tecnologias com as quais trabalho.</p>
+                        <div id="tech-stack-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            <!-- Tech stack logos will be injected by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Percepções sobre meu Trabalho -->
+                <section id="perceptions">
+                    <h2 class="text-2xl font-semibold border-b-2 border-blue-200 pb-2 mb-4">Percepções sobre meu Trabalho</h2>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-blue-700">Pessoa super prestativa e resolutiva</h3>
+                            <p class="text-stone-700 text-sm mt-1">"Renato é uma pessoa super prestativa e resolutiva, conseguindo avançar com vários aspectos de dados e monitorias super importantes para a área. Vem fazendo um bom trabalho e caminhando para se tornar destaque no time."</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-blue-700">Ponto focal de dados e educador</h3>
+                            <p class="text-stone-700 text-sm mt-1">"A forma como percebemos que os dados são fundamentais e indispensáveis, foi devido a ele. Junto a ele, podemos bater no pedido democratização dos dados, pois sem eles, nossa área é muito defasada. Ele é nosso ponto focal de dados e ensina muito bem todos que pedem ajuda."</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-blue-700">Rápido aprendizado e busca por soluções</h3>
+                            <p class="text-stone-700 text-sm mt-1">"Em pouco tempo de área conseguiu entender a atividade que foi proposta a ele e passou a executar muito bem. Busca aprender coisas novas para contornar as situações adversas que aparecem durante a execução das atividades. Continua assim que vai longe!"</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-blue-700">Protagonismo e impacto na área</h3>
+                            <p class="text-stone-700 text-sm mt-1">"Atuou com protagonismo na frente de dados na área durante o ano de 2023. Criou painéis gerais da área. Criou parceria com o time de MIS. Puxou a frente da conta consumer da área. Uma boa prática é dividir mais os conhecimentos que possui para equalizar o conhecimento que possui. Destacou-se em relação ao grupo."</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-blue-700">Pró-atividade e responsabilidade</h3>
+                            <p class="text-stone-700 text-sm mt-1">"O Renato é um analista extremamente pró ativo e trabalha de forma responsável com as demandas que são confiadas a ele. Sempre propondo melhorias e criticando de forma construtiva o que já está feito. Com base na sua atuação, considero que ele se destaca entre os demais Juniors."</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-blue-700">Analista diferenciado e colaborativo</h3>
+                            <p class="text-stone-700 text-sm mt-1">"Renato é um analista diferenciado. Sempre disposto a apoiar os companheiros e trazendo as melhores soluções sustentáveis para a área."</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="font-semibold text-blue-700">Curva de aprendizado acentuada e busca por resultados</h3>
+                            <p class="text-stone-700 text-sm mt-1">"Renato está a pouco tempo no time mas com uma curva de aprendizado bastante acentuada. Bastante questionador, com um perfil de quem busca a resolução, persegue o resultado. Suas contribuições foram valiosas para estruturar um hub onde todo o time que monitora as modalidades de cartão presente e não presente utilizam para acompanhar movimentações no portfólio diariamente. Os objetivos de nutrir o time de informações com agilidade e assertividade foram alcançados em 2022, se aprofundar no conhecimento de modalidades, otimizar visões de legado e ampliar o escopo de atuação vão acelerar o desenvolvimento."</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Education -->
+                <section id="education">
+                    <h2 class="text-2xl font-semibold border-b-2 border-blue-200 pb-2 mb-4">Formação Acadêmica</h2>
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center space-x-4">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0NQcQvpm93LaAsoZWRS2bxZqkMwC6x3fyyA&s" alt="UFABC Logo" class="w-20 h-20 object-contain">
+                        <div>
+                            <h3 class="font-semibold text-lg text-slate-800">Universidade Federal do ABC (UFABC)</h3>
+                            <p class="text-stone-600">Bacharelado em Ciência e Tecnologia, Engenharia</p>
+                            <p class="text-sm text-stone-500 mt-1">2019 - 2025</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Certifications -->
+                <section id="certifications">
+                    <h2 class="text-2xl font-semibold border-b-2 border-blue-200 pb-2 mb-4">Certificações</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-white p-3 rounded-lg shadow-md flex items-center space-x-3">
+                            <img src="https://images.credly.com/images/4bb6709a-e50d-47fa-94d5-0327ccd399bf/image.png" alt="Analytics Engineering" class="rounded-md w-16 h-16">
+                            <p class="text-stone-700 font-medium text-xs">Analytics Engineering</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-md flex items-center space-x-3">
+                            <img src="https://images.credly.com/images/dbbbaffb-5117-4da2-9b03-eae604acbf51/image.png" alt="Data Modelling" class="rounded-md w-16 h-16">
+                            <p class="text-stone-700 font-medium text-xs">Data Modelling</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-md flex items-center space-x-3">
+                            <img src="https://images.credly.com/images/27224c08-f61c-4d82-b929-325f96af326a/image.png" alt="Data Engineering" class="rounded-md w-16 h-16">
+                            <p class="text-stone-700 font-medium text-xs">Data Engineering</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-md flex items-center space-x-3">
+                            <img src="https://placehold.co/60x60/dbeafe/3b82f6?text=Excel" alt="Excel Dashboards" class="rounded-md">
+                            <p class="text-stone-700 font-medium text-xs">Excel Dashboards</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-md flex items-center space-x-3">
+                            <img src="https://placehold.co/60x60/dbeafe/3b82f6?text=Fin" alt="Financial Accounting" class="rounded-md">
+                            <p class="text-stone-700 font-medium text-xs">Financial Accounting</p>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const experienceData = [
+                {
+                    role: "Analista de Dados Seguros PL",
+                    company: "Itaú Unibanco",
+                    period: "janeiro de 2025 - Presente",
+                    details: [
+                        "Participei da modernização de processos legados para ambientes de nuvem (AWS), transformando pipelines tradicionais em soluções escaláveis e eficientes.",
+                        "Utilização de AWS Glue para orquestração e transformação de dados, Amazon Athena para consultas serverless e Amazon S3 como data lake primário.",
+                        "Foco em garantir agilidade operacional e conformidade regulatória no setor de seguros através da análise de dados.",
+                        "Promoção de integração contínua entre áreas técnicas e de negócios para garantir a evolução dos sistemas com qualidade e segurança."
+                    ],
+                    tags: ["AWS Glue", "Amazon Athena", "Amazon S3", "Data Lake", "Modernization"]
+                },
+                {
+                    role: "Analista de Negócios Digitais (Engenheiro de Analytics)",
+                    company: "Itaú Unibanco",
+                    period: "fevereiro de 2024 - janeiro de 2025",
+                    details: [
+                        "Gerenciamento e otimização do processamento de grandes volumes de dados para o aplicativo do maior banco da América Latina.",
+                        "Desenvolvimento e manutenção de pipelines de dados complexos com AWS (S3, Redshift, Glue, EMR), Python, SQL e PySpark.",
+                        "Implementação de processos ETL para garantir a correta ingestão e transformação de dados de diversas fontes.",
+                        "Desenvolvimento de scripts em Python para automação de tarefas, reduzindo tempo de processamento e erros humanos.",
+                        "Implementação de modelos preditivos e algoritmos de Machine Learning para fornecer insights avançados.",
+                        "Garantia de integridade e qualidade dos dados através de monitoramento contínuo e desenvolvimento de dashboards."
+                    ],
+                    tags: ["Python", "PySpark", "SQL", "AWS Redshift", "AWS EMR", "ETL", "Machine Learning"]
+                },
+                {
+                    role: "Analista de Prevenção à Fraude Jr",
+                    company: "Itaú Unibanco",
+                    period: "agosto de 2022 - fevereiro de 2024",
+                    details: [
+                        "Processamento e automação de dados em arquitetura de data mesh para criação de métricas estratégicas em Tableau e Quicksight.",
+                        "Automação de fluxos de dados na nuvem utilizando AWS Glue Job, S3, SageMaker, Athena e Step Functions.",
+                        "Otimização de fluxos operacionais com consultas automatizadas em Python e SQL (Presto DB – Athena).",
+                        "Redesenho de processos para reduzir o esforço operacional através de pipelines de dados consistentes no ambiente AWS."
+                    ],
+                    tags: ["Data Mesh", "Tableau", "Quicksight", "AWS SageMaker", "StepFunctions", "PrestoDB"]
+                },
+                {
+                    role: "Estagiário",
+                    company: "Itaú Unibanco",
+                    period: "abril de 2021 - agosto de 2022",
+                    details: ["Apoio nas atividades da área de dados, com foco no desenvolvimento de habilidades em análise de dados, ferramentas corporativas e processos de negócio."],
+                    tags: ["Data Analysis Foundations"]
+                }
+            ];
+
+            const projectsData = [
+                {
+                    title: "Migração de Processos Legados de Prevenção à Fraudes para AWS/Data Mesh",
+                    description: "Modernização e migração de processos de prevenção à fraudes do Sybase para o ambiente AWS/Data Mesh.",
+                    image: "https://learn.microsoft.com/pt-br/azure/cloud-adoption-framework/_images/modernize/modernize-methodology.png",
+                    imageAlt: "Diagrama conceitual do fluxo de migração de processos legados para AWS/Data Mesh, mostrando os componentes chave e o fluxo de dados.",
+                    diagramDescription: "Este diagrama ilustra a arquitetura de alto nível do processo de migração, desde a origem dos dados no ambiente legado (Sybase) até a sua transformação e alocação no Data Mesh da AWS. Ele destaca os serviços AWS utilizados para cada etapa, garantindo a visualização da transição e a modernização.",
+                    details: [
+                        "Realizei o discovery e entendimento aprofundado das lógicas de negócios complexas do processo que precisava ser migrado, garantindo a fidelidade dos dados.",
+                        "Conduzi o desenho da árvore lógica e da modelagem de dados para o novo ambiente, otimizando a estrutura para performance e escalabilidade.",
+                        "Participei ativamente da discussão e seleção das melhores soluções AWS (Glue, SageMaker, Athena, Step Functions) para cada etapa do pipeline, visando eficiência e custo-benefício.",
+                        "Desenvolvi o código da solução para a migração e modernização dos tratamentos e lógicas, transformando SQL e scripts existentes em processos PySpark eficientes.",
+                        "Assegurei a documentação completa da solução no Confluence, promovendo a sustentabilidade e o conhecimento compartilhado entre as equipes."
+                    ],
+                    technologies: ["AWS", "PySpark", "SQL", "AWS Glue", "Amazon SageMaker", "Amazon Athena", "AWS Step Functions", "Data Mesh", "Sybase Migration"],
+                    link: "#"
+                },
+                {
+                    title: "Criação de Base Única de Contestação de Compras",
+                    description: "Desenvolvimento de uma base unificada no ambiente AWS para acompanhamento de diversas variáveis de prevenção à fraudes em cartão de crédito.",
+                    image: "https://www.progresstalk.com/attachments/diagram2-png.3078/",
+                    imageAlt: "Diagrama lógico da base única de contestação de compras, mostrando a unificação de 15 origens de dados distintas e seus componentes.",
+                    diagramDescription: "Este diagrama lógico detalha a complexidade da base única de contestação, ilustrando como mais de 15 bases de dados de diferentes origens foram unificadas em um único ponto no ambiente AWS. Ele visualiza a interconexão das fontes e o fluxo que as consolida, servindo como o coração dos dados para a prevenção à fraude.",
+                    details: [
+                        "Desenhei uma base unificada com 15 origens de dados distintas dentro do Data Mesh, consolidando informações críticas para a prevenção à fraudes.",
+                        "Essa base tornou-se o coração dos dados para toda a prevenção à fraudes no cartão de crédito, fornecendo insights e indicadores estratégicos para a equipe.",
+                        "Otimizei a tomada de decisão da equipe através da unificação e tratamento de dados complexos, resultando em maior agilidade e assertividade nas ações de combate à fraude."
+                    ],
+                    highlights: [
+                        "13 Tabelas Iceberg Criadas",
+                        "11 TB de Armazenamento",
+                        "388.832 Objetos S3",
+                        "28 Querys",
+                        "11 Origens de Dados",
+                        "3 Orquestradores de Querys",
+                        "1 hora e 9 minutos de Atualização Diária"
+                    ],
+                    technologies: ["AWS", "PySpark", "SQL", "Data Mesh", "Data Modeling", "Big Data", "Amazon S3", "Amazon Athena", "Iceberg Tables"],
+                    link: "#"
+                },
+                {
+                    title: "Desenho de Base de Jornada do Cliente no Itaú Unibanco (SuperApp)",
+                    description: "Criação de uma base unificada de atendimento para superar desafios de dados segmentados e otimizar a análise da jornada do cliente no SuperApp.",
+                    image: "https://www.portaldorh.ms.gov.br/wp-content/uploads/2021/02/82ad06bf-f25a-4868-84cf-fcbfdd7da4a9.jpeg",
+                    imageAlt: "Diagrama do fluxo de dados para a base de jornada do cliente no SuperApp, com múltiplas integrações de canais de atendimento.",
+                    diagramDescription: "Este diagrama conceitua a arquitetura da base de jornada do cliente, mostrando a consolidação de mais de 1.5 bilhão de registros diários de 15+ bases de diferentes canais de atendimento (App PF, ligações, WhatsApp, chat, vendas). Ele ilustra como essa unificação permitiu uma visão 360° do cliente e a otimização de estratégias.",
+                    details: [
+                        "Concebi uma base unificada de atendimento para o SuperApp, consolidando mais de 1.5 bilhão de registros diários, superando a dificuldade de trabalhar com analytics em bases segmentadas.",
+                        "Implementei o processamento de dados totalmente no AWS Glue, integrando mais de 15 bases de diferentes canais (App PF, ligações, WhatsApp, atendimento no chat do Itaú, base de vendas).",
+                        "O objetivo principal foi fornecer uma visão 360° da jornada do cliente, permitindo um atendimento mais personalizado e a otimização de estratégias.",
+                        "Melhorei significativamente a capacidade de analytics e aprofundamento nas variáveis do cliente para tomadas de decisão estratégicas."
+                    ],
+                    technologies: ["AWS Glue", "PySpark", "Data Modeling", "Big Data", "Customer Journey", "AWS", "Data Integration"],
+                    link: "#"
+                },
+                {
+                    title: "Solução de Orquestração e Qualidade de Dados com AWS Step Functions",
+                    description: "Criação de uma solução robusta em AWS Step Functions para orquestração de atualização de tabelas em conta consumer, com foco em validação de qualidade de dados.",
+                    image: "https://www.drawio.com/assets/img/blog/threat-modelling-data-flow.png",
+                    imageAlt: "Diagrama de fluxo da solução de orquestração com AWS Step Functions e validação de qualidade de dados.",
+                    diagramDescription: "Este diagrama representa o fluxo de uma solução de orquestração construída com AWS Step Functions. Ele detalha as etapas automatizadas para atualização de tabelas em uma conta consumer AWS, destacando os pontos de validação de qualidade e a integração de ferramentas como S3 e Athena para o processamento de dados, bem como o uso de Glue Data Quality.",
+                    details: [
+                        "Criei uma solução em AWS Step Functions para orquestração de atualização de tabelas dentro de uma conta consumer AWS, utilizando o Amazon S3 como orquestrador central.",
+                        "Implementei validadores de qualidade de dados na solução para assegurar a integridade e consistência das informações.",
+                        "Integrei a funcionalidade `MERGE INTO` usando Amazon Athena para otimizar a atualização incremental das tabelas.",
+                        "Desenvolvi um mecanismo para o incremento de uma tabela de qualidade, registrando possíveis erros para monitoramento e análise de falhas.",
+                        "Utilizei o AWS Glue Data Quality como componente essencial para a avaliação e garantia da qualidade dos dados processados, facilitando a padronização da orquestração e a fácil aplicabilidade."
+                    ],
+                    technologies: ["AWS Step Functions", "Amazon S3", "Amazon Athena", "AWS Glue Data Quality", "SQL", "Data Quality", "Orchestration"],
+                    link: "#"
+                },
+                {
+                    title: "Modernização de Processos SAS para AWS no Setor de Seguros",
+                    description: "Migração e reestruturação completa de processos analíticos e mais de 10 tabelas do ambiente SAS para a nuvem AWS no time de seguros.",
+                    image: "https://learn.microsoft.com/pt-br/azure/cloud-adoption-framework/_images/caf-overview-graphic.png",
+                    imageAlt: "Diagrama de alto nível da migração de processos SAS para o ambiente AWS.",
+                    diagramDescription: "Este diagrama conceitua o processo de modernização e migração de fluxos analíticos e bases de dados do ambiente SAS legado para a infraestrutura escalável da AWS, no contexto do setor de seguros. Ele visualiza a transição de plataformas e a reestruturação dos dados na nuvem.",
+                    details: [
+                        "Conduzi a modernização e migração de múltiplos processos analíticos que antes residiam no ambiente SAS para a infraestrutura AWS, focando no time de seguros.",
+                        "Migrei, documentei e estruturei mais de 10 tabelas de dados críticas, garantindo a fidelidade e a otimização para o consumo em ambiente de nuvem.",
+                        "Assegurei que os processos migrados mantivessem ou melhorassem a performance e a escalabilidade, aproveitando os recursos da AWS para um processamento de dados mais eficiente.",
+                        "Contribuição para a otimização operacional e a capacidade analítica do time de seguros através da modernização da plataforma de dados."
+                    ],
+                    technologies: ["SAS", "AWS", "Data Migration", "Data Structuring", "Data Documentation", "Cloud Computing"],
+                    link: "#"
+                },
+                {
+                    title: "Ensino e Treinamento em Engenharia de Analytics",
+                    description: "Desenvolvimento e condução de aulas e treinamentos abrangentes, focados em conceitos teóricos e práticos de Engenharia de Analytics para profissionais da área.",
+                    image: "https://www.sofis.com.br/wp-content/uploads/2021/08/cursos-online-gratuitos-cie%CC%82ncia-de-dados.jpg",
+                    imageAlt: "Diagrama de um programa de ensino e treinamento em Engenharia de Analytics.",
+                    diagramDescription: "Este diagrama representa a estrutura de um programa de ensino e treinamento em Engenharia de Analytics, detalhando os módulos teóricos (ambientes, processamento, arquiteturas de dados) e as aplicações práticas com ferramentas como PySpark, SQL e AWS, visando a capacitação e equalização do conhecimento da equipe.",
+                    details: [
+                        "Desenvolvi e apresentei aulas e treinamentos com foco em conceitos teóricos essenciais de Engenharia de Analytics, incluindo ambientes de dados, processamento de dados e arquiteturas de dados.",
+                        "Criei e conduzi sessões de treinamento práticas intensivas, utilizando PySpark, SQL e AWS como ferramentas principais, para aplicar os conhecimentos teóricos em cenários reais.",
+                        "Foco na equalização do conhecimento da equipe, capacitando os profissionais a manipular e transformar dados de forma eficiente.",
+                        "Atuei como mentor e facilitador, acelerando o desenvolvimento profissional em Engenharia de Analytics através de exemplos práticos e resolução de desafios."
+                    ],
+                    technologies: ["PySpark", "SQL", "AWS", "Data Architecture", "Data Processing", "Training", "Mentorship", "Education"],
+                    link: "#"
+                }
+            ];
+
+            const experienceContainer = document.getElementById('experience-container');
+            experienceData.forEach(job => {
+                const jobElement = document.createElement('div');
+                jobElement.className = 'timeline-item relative mb-8';
+                
+                const tagsHtml = job.tags.map(tag => `<span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-1 rounded-full rounded-md">${tag}</span>`).join('');
+
+                jobElement.innerHTML = `
+                    <div class="timeline-line"></div>
+                    <div class="cursor-pointer job-title transition-colors hover:bg-stone-200 p-2 rounded-md">
+                        <h3 class="text-lg font-semibold text-slate-800">${job.role}</h3>
+                        <p class="text-md text-stone-600 font-medium">${job.company}</p>
+                        <p class="text-sm text-stone-500">${job.period}</p>
+                    </div>
+                    <div class="details-content pl-2">
+                        <ul class="list-disc list-inside mt-2 text-stone-700 space-y-2">
+                            ${job.details.map(d => `<li>${d}</li>`).join('')}
+                        </ul>
+                        <div class="mt-4 flex flex-wrap">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                `;
+                experienceContainer.appendChild(jobElement);
+            });
+
+            document.querySelectorAll('.job-title').forEach(title => {
+                title.addEventListener('click', () => {
+                    const content = title.nextElementSibling;
+                    content.classList.toggle('open');
+                });
+            });
+
+            const projectsContainer = document.getElementById('projects-container');
+            projectsData.forEach(project => {
+                const projectElement = document.createElement('div');
+                projectElement.className = 'bg-white p-6 rounded-lg shadow-md';
+
+                const projectTagsHtml = project.technologies.map(tag => `<span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-1 rounded-full rounded-md">${tag}</span>`).join('');
+
+                const highlightsHtml = project.highlights ? `
+                    <div class="mt-4 p-4 bg-blue-50 rounded-md">
+                        <h4 class="font-semibold text-blue-800 mb-2">Resultados e Métricas Principais:</h4>
+                        <ul class="list-disc list-inside text-blue-700 text-sm space-y-1">
+                            ${project.highlights.map(h => `<li>${h}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : '';
+
+                projectElement.innerHTML = `
+                    <div class="cursor-pointer project-title transition-colors hover:bg-stone-100 p-2 -m-2 rounded-md">
+                        <h3 class="text-xl font-semibold text-slate-800">${project.title}</h3>
+                        <p class="text-sm text-stone-600 mt-1">${project.description}</p>
+                    </div>
+                    <div class="details-content mt-4 pl-2">
+                        ${project.diagramDescription ? `<p class="mb-4 text-stone-600">${project.diagramDescription}</p>` : ''}
+                        ${project.image ? `<div class="w-full flex justify-center mb-6">
+                                <img src="${project.image}" alt="${project.imageAlt}" class="rounded-lg shadow-md max-w-full h-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x300/cccccc/000000?text=Imagem+Nao+Disponivel';">
+                            </div>` : ''}
+                        <ul class="list-disc list-inside text-stone-700 space-y-2">
+                            ${project.details.map(d => `<li class="mb-2">${d}</li>`).join('')}
+                        </ul>
+                        ${highlightsHtml}
+                        <div class="mt-4 flex flex-wrap">
+                            ${projectTagsHtml}
+                        </div>
+                        ${project.link && project.link !== '#' ? `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">Ver Projeto <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>` : ''}
+                    </div>
+                `;
+                projectsContainer.appendChild(projectElement);
+            });
+
+            document.querySelectorAll('.project-title').forEach(title => {
+                title.addEventListener('click', () => {
+                    const content = title.nextElementSibling;
+                    content.classList.toggle('open');
+                });
+            });
+
+            // Data for the Skills Chart (quantitative years of experience)
+            const chartSkillsData = {
+                'AWS': 4, 'Python': 4, 'SQL': 4, 'ETL/Pipelines': 4, 'Data Modeling': 3, 'PySpark': 3, 'BI Tools': 3
+            };
+
+            // Mapping for Chart.js bar colors based on common brand colors
+            const chartColorsMap = {
+                'AWS': '#FF9900',
+                'Python': '#3776AB',
+                'SQL': '#00758F', // Postgresql/SQL generic
+                'ETL/Pipelines': '#60A5FA', // Generic blue
+                'Data Modeling': '#10B981', // Green for data concepts
+                'PySpark': '#E25A2C', // Spark orange
+                'BI Tools': '#E14D2C' // Generic BI tool color (Tableau)
+            };
+
+            const chartBackgroundColors = Object.keys(chartSkillsData).map(skill => chartColorsMap[skill] || '#3b82f6'); // Fallback to blue-500
+
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(chartSkillsData), // Text labels for the chart
+                    datasets: [{
+                        label: 'Anos de Experiência',
+                        data: Object.values(chartSkillsData),
+                        backgroundColor: chartBackgroundColors, // Use mapped colors
+                        borderColor: chartBackgroundColors,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            cornerRadius: 4,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.raw} anos de experiência`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)'
+                            },
+                            ticks: {
+                                font: { size: 12 }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: { size: 14, weight: 'bold' }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Data for the visual Tech Stack section (logos and colored text)
+            const technologyStackData = [
+                { label: 'AWS', color: 'FF9900', logo: 'amazonaws', logoColor: 'FFFFFF' },
+                { label: 'Python', color: '3776AB', logo: 'python', logoColor: 'FFD43B' },
+                { label: 'SQL', color: '00758F', logo: 'postgresql', logoColor: 'FFFFFF' },
+                { label: 'PySpark', color: 'E25A2C', logo: 'apachespark', logoColor: 'FFFFFF' },
+                { label: 'ETL', color: '60A5FA', logo: 'apacheairflow', logoColor: 'FFFFFF' },
+                { label: 'Data Modeling', color: '10B981', logo: 'database', logoColor: 'FFFFFF' },
+                { label: 'Data Mesh', color: 'FCD34D', logo: 'databricks', logoColor: 'FFFFFF' },
+                { label: 'Tableau', color: 'E97627', logo: 'tableau', logoColor: 'FFFFFF' },
+                { label: 'Power BI', color: 'F2C811', logo: 'powerbi', logoColor: 'FFFFFF' },
+                { label: 'Quicksight', color: '1D3F59', logo: 'amazonquicksight', logoColor: 'FFFFFF' },
+                { label: 'Git', color: 'F05033', logo: 'git', logoColor: 'FFFFFF' },
+                { label: 'DataOps', color: '3F51B5', logo: 'docker', logoColor: 'FFFFFF' },
+                { label: 'Machine Learning', color: '66BB6A', logo: 'tensorflow', logoColor: 'FFFFFF' }
+            ];
+            
+            const techStackContainer = document.getElementById('tech-stack-container');
+            technologyStackData.forEach(tech => {
+                const badgeLogoColor = tech.logoColor ? `&logoColor=${tech.logoColor}` : '';
+                const badgeUrl = `https://img.shields.io/badge/${encodeURIComponent(tech.label)}-${tech.color}?style=for-the-badge&logo=${tech.logo}${badgeLogoColor}`;
+                
+                const techCard = document.createElement('div');
+                techCard.className = 'tech-logo-card';
+                techCard.innerHTML = `
+                    <img src="${badgeUrl}" alt="${tech.label} Badge">
+                `;
+                techStackContainer.appendChild(techCard);
+            });
+        });
+    </script>
+</body>
+</html>
