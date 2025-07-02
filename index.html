@@ -13,7 +13,7 @@
     <!-- Application Structure Plan: A single-page, vertical-scrolling application designed to be an enhanced digital resume. The structure includes: a Hero header for identity, a professional Summary, an interactive chronological Experience timeline (click to expand), an interactive Projects section (click to expand) with descriptive images and key metrics, a Skills Dashboard with a quantitative Chart.js visualization, and sections for Education & Certifications with visual cues. This structure was chosen because it mirrors a familiar resume format, making it instantly understandable, while the interactivity (expandable details, data charts, visual certification logos, and rich project content) allows users to seamlessly switch between a high-level overview and a detailed deep-dive, catering to different reviewer needs without overwhelming them. -->
     <!-- Visualization & Content Choices:
         - Resume Experience -> Goal: Show career path -> Viz: Interactive Timeline (HTML/CSS/JS) -> Interaction: Click on job titles to toggle visibility of details -> Justification: Provides a clear narrative of growth and allows users to control information density.
-        - Projects -> Goal: Showcase detailed work examples with visual context -> Viz: Expandable Project Cards (HTML/CSS/JS) with Placeholder Images for Diagrams and Key Statistics -> Interaction: Click on project titles to toggle visibility of details, text exploration of metrics -> Justification: Allows demonstration of specific technical contributions, project scope, and quantitative impact, making complex data flows more tangible. Placeholder images indicate where a conceptual diagram would fit, enhancing visual appeal without violating constraints.
+        - Projects -> Goal: Showcase detailed work examples with visual context -> Viz: Expandable Project Cards (HTML/CSS/JS) with Descriptive Images and Key Statistics -> Interaction: Click on project titles to toggle visibility of details, text exploration of metrics -> Justification: Allows demonstration of specific technical contributions, project scope, and quantitative impact, making complex data flows more tangible. Placeholder images indicate where a conceptual diagram would fit, enhancing visual appeal without violating constraints.
         - Skills Chart -> Goal: Quantify expertise -> Viz: Bar Chart (Chart.js/Canvas) with bold text labels and bars colored to match technology logos -> Interaction: Tooltips on hover -> Justification: Clearly presents years of experience per core skill while visually associating bars with technology brands, with enhanced readability for labels.
         - Technology Stack (new section) -> Goal: Visually highlight technologies with their logos/colors -> Viz: Grid of Shields.io badges (Img tags) -> Interaction: Visual recognition -> Justification: Addresses the user's desire for specific logo/color branding for each technology, providing a modern and compact visual representation, complementing the quantitative chart.
         - Certifications -> Goal: Provide quick recognition of credentials -> Viz: Actual Certification Logos and Placeholder Images (placehold.co) -> Interaction: Visual cue -> Justification: Offers immediate visual recognition for each certification, making the section more engaging and credible.
@@ -76,6 +76,89 @@
             height: auto;
             display: block; /* To remove extra space below image */
         }
+
+        /* Styles for the qualities grid (for Percepções sobre meu Trabalho) */
+        .perceptions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid columns */
+            gap: 1rem; /* Gap between cards */
+        }
+
+        .perception-card {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align content to the top */
+            text-align: left; /* Align text to the left */
+        }
+        .perception-card h3 {
+            font-weight: 600;
+            color: #2563eb; /* blue-600 */
+            margin-bottom: 0.5rem;
+            font-size: 1rem; /* Adjust title font size */
+        }
+        .perception-card p {
+            font-size: 0.875rem; /* text-sm */
+            color: #44403c; /* stone-700 */
+            font-style: italic;
+        }
+
+
+        /* Styles for the highlights carousel (Minhas Qualidades em Destaque) */
+        .highlights-carousel-container { /* The visible viewport of the carousel */
+            position: relative;
+            overflow: hidden; /* Hide overflowing parts */
+            padding: 1rem 0; /* Adjusted padding */
+            display: flex;
+            align-items: center; /* Vertically center the track */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border-radius: 0.5rem;
+            background-color: #ffffff;
+        }
+
+        .carousel-track {
+            display: flex;
+            align-items: center; /* Vertically center cards within the track */
+        }
+
+        .highlight-card {
+            flex-shrink: 0; /* Prevent cards from shrinking */
+            width: 280px; /* Fixed width for each card */
+            margin: 0 10px; /* Margin between cards */
+            padding: 1rem;
+            box-sizing: border-box;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.5s ease-in-out, background-color 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: left;
+            min-height: 180px;
+            background-color: #f0f0f0;
+            opacity: 0.5;
+            transform: scale(0.9);
+            filter: blur(3px);
+        }
+
+        .highlight-card.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+            background-color: #ffffff;
+        }
+        .highlight-card h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .highlight-card p {
+            font-size: 0.875rem;
+            color: #44403c;
+        }
     </style>
 </head>
 <body class="text-stone-800">
@@ -85,7 +168,7 @@
         <!-- Header / Hero -->
         <header class="text-center mb-16">
             <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Renato Assis Schiavon Parente</h1>
-            <p class="mt-2 text-xl md:text-2xl text-blue-600 font-medium">Engenheiro de Analytics | Foco em AWS, SQL, Python e PySpark </p>
+            <p class="mt-2 text-xl md:text-2xl text-blue-600 font-medium">Engenheiro de Analytics | Especialista em AWS & PySpark</p>
             <div class="mt-6 flex justify-center items-center flex-wrap gap-x-4 gap-y-2 text-stone-600">
                 <a href="tel:+5511999945133" class="hover:text-blue-600 flex items-center transition-colors rounded-full px-3 py-1 bg-white shadow-sm">
                     <svg class="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -125,6 +208,22 @@
                         
                     </div>
                 </section>
+                
+                <!-- Minhas Qualidades em Destaque (Moved from aside) -->
+                <section id="my-qualities-perceptions">
+                    <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 mb-4">Minhas Qualidades em Destaque</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="w-full flex flex-col items-center mb-4">
+                            <canvas id="qualitiesRadarChart" class="rounded-lg shadow-md max-w-full h-auto" style="max-height: 400px;"></canvas>
+                            <p class="text-sm text-stone-500 mt-4 text-center">Esses valores foram gerados através dos testes da Mindset.</p>
+                        </div>
+                        <div class="highlights-carousel-container">
+                            <div class="carousel-track">
+                                <!-- Highlight cards will be injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Projects -->
                 <section id="projects">
@@ -156,38 +255,11 @@
                     </div>
                 </section>
 
-                <!-- Percepções sobre meu Trabalho -->
+                <!-- Percepções sobre meu Trabalho (Individual Cards) -->
                 <section id="perceptions">
                     <h2 class="text-2xl font-semibold border-b-2 border-blue-200 pb-2 mb-4">Percepções sobre meu Trabalho</h2>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-blue-700">Pessoa super prestativa e resolutiva</h3>
-                            <p class="text-stone-700 text-sm mt-1">"Renato é uma pessoa super prestativa e resolutiva, conseguindo avançar com vários aspectos de dados e monitorias super importantes para a área. Vem fazendo um bom trabalho e caminhando para se tornar destaque no time."</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-blue-700">Ponto focal de dados e educador</h3>
-                            <p class="text-stone-700 text-sm mt-1">"A forma como percebemos que os dados são fundamentais e indispensáveis, foi devido a ele. Junto a ele, podemos bater no pedido democratização dos dados, pois sem eles, nossa área é muito defasada. Ele é nosso ponto focal de dados e ensina muito bem todos que pedem ajuda."</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-blue-700">Rápido aprendizado e busca por soluções</h3>
-                            <p class="text-stone-700 text-sm mt-1">"Em pouco tempo de área conseguiu entender a atividade que foi proposta a ele e passou a executar muito bem. Busca aprender coisas novas para contornar as situações adversas que aparecem durante a execução das atividades. Continua assim que vai longe!"</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-blue-700">Protagonismo e impacto na área</h3>
-                            <p class="text-stone-700 text-sm mt-1">"Atuou com protagonismo na frente de dados na área durante o ano de 2023. Criou painéis gerais da área. Criou parceria com o time de MIS. Puxou a frente da conta consumer da área. Uma boa prática é dividir mais os conhecimentos que possui para equalizar o conhecimento que possui. Destacou-se em relação ao grupo."</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-blue-700">Pró-atividade e responsabilidade</h3>
-                            <p class="text-stone-700 text-sm mt-1">"O Renato é um analista extremamente pró ativo e trabalha de forma responsável com as demandas que são confiadas a ele. Sempre propondo melhorias e criticando de forma construtiva o que já está feito. Com base na sua atuação, considero que ele se destaca entre os demais Juniors."</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-blue-700">Analista diferenciado e colaborativo</h3>
-                            <p class="text-stone-700 text-sm mt-1">"Renato é um analista diferenciado. Sempre disposto a apoiar os companheiros e trazendo as melhores soluções sustentáveis para a área."</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h3 class="font-semibold text-blue-700">Curva de aprendizado acentuada e busca por resultados</h3>
-                            <p class="text-stone-700 text-sm mt-1">"Renato está a pouco tempo no time mas com uma curva de aprendizado bastante acentuada. Bastante questionador, com um perfil de quem busca a resolução, persegue o resultado. Suas contribuições foram valiosas para estruturar um hub onde todo o time que monitora as modalidades de cartão presente e não presente utilizam para acompanhar movimentações no portfólio diariamente. Os objetivos de nutrir o time de informações com agilidade e assertividade foram alcançados em 2022, se aprofundar no conhecimento de modalidades, otimizar visões de legado e ampliar o escopo de atuação vão acelerar o desenvolvimento."</p>
-                        </div>
+                    <div class="perceptions-grid">
+                        <!-- Perception cards will be injected by JS -->
                     </div>
                 </section>
 
@@ -304,7 +376,7 @@
                 {
                     title: "Criação de Base Única de Contestação de Compras",
                     description: "Desenvolvimento de uma base unificada no ambiente AWS para acompanhamento de diversas variáveis de prevenção à fraudes em cartão de crédito.",
-                    image: "https://www.progresstalk.com/attachments/diagram2-png.3078/",
+                    image: "https://raw.githubusercontent.com/Renato425636/imos/refs/heads/main/Diagrama%20_prev_fraudes.png?token=GHSAT0AAAAAADGL3EXNFOIHFLWE5WG7FHMM2DCDCJQ",
                     imageAlt: "Diagrama lógico da base única de contestação de compras, mostrando a unificação de 15 origens de dados distintas e seus componentes.",
                     diagramDescription: "Este diagrama lógico detalha a complexidade da base única de contestação, ilustrando como mais de 15 bases de dados de diferentes origens foram unificadas em um único ponto no ambiente AWS. Ele visualiza a interconexão das fontes e o fluxo que as consolida, servindo como o coração dos dados para a prevenção à fraude.",
                     details: [
@@ -438,7 +510,7 @@
 
                 projectElement.innerHTML = `
                     <div class="cursor-pointer project-title transition-colors hover:bg-stone-100 p-2 -m-2 rounded-md">
-                        <h3 class="text-xl font-semibold text-slate-800">${project.title}</h3>
+                        <h3 class="text-xl font-semibold text-blue-700">${project.title}</h3>
                         <p class="text-sm text-stone-600 mt-1">${project.description}</p>
                     </div>
                     <div class="details-content mt-4 pl-2">
@@ -570,6 +642,195 @@
                     <img src="${badgeUrl}" alt="${tech.label} Badge">
                 `;
                 techStackContainer.appendChild(techCard);
+            });
+
+            // Data for the "Minhas Qualidades em Destaque" carousel
+            const allQualitiesData = [
+                // From ProfileFeedback.pdf (Constructos de perfil)
+                { title: "Capacidade Analítica", description: "Habilidade para analisar informações, números e dados, processando-os de maneira lógica para chegar a conclusões fundamentadas. Benefícios: Analisar causas-raízes de problemas e manipular números e informações.", percentage: 84.62, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>`, color: 'rgb(0, 0, 0)' },
+                { title: "Pensamento Conceitual", description: "Capacidade de formular conceitos, determinar problemas e lidar com abstrações. Benefícios: Formular estratégias e dar visão do seu trabalho e empresa para a equipe e outros stakeholders.", percentage: 70.97, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 21c-4.42 0-8-3.58-8-8s3.58-8 8-8c1.1 0 2.13.23 3.06.64A5.5 5.5 0 0117.5 4C20.54 4 23 6.46 23 9.5c0 2.3-1.36 4.29-3.33 5.15C19.23 18.23 14.61 21 9 21zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6c3.76 0 7.27-2.42 8.47-5.85A5.45 5.45 0 0117.5 6C16.07 6 14.8 6.81 14.17 8H9z"/></svg>`, color: 'rgb(0, 51, 51)' },
+                { title: "Reflexão", description: "Capacidade de reflexão, autoanálise e observação dos seus estados e pontos fortes e fracos. Benefícios: Acelerar o aprendizado e trazer insights para a sua posição e a sua área.", percentage: 61.88, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm7-14h-6v2h4v4h2V4z"/></svg>`, color: 'rgb(0, 102, 102)' },
+                { title: "Pensamento Criativo", description: "Capacidade de criar coisas novas e inovar, fugir do lugar comum. Benefícios: Desenvolver soluções inovadoras e pensar em novos caminhos para solucionar problemas.", percentage: 91.43, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a9 9 0 00-6.36 15.36l-1.41 1.41a1 1 0 001.41 1.41l1.41-1.41A9 9 0 1012 2zm0 16a7 7 0 110-14 7 7 0 010 14z"/><path d="M12 6a1 1 0 00-1 1v4a1 1 0 002 0V7a1 1 0 00-1-1z"/><path d="M12 14a1 1 0 100 2 1 1 0 000-2z"/></svg>`, color: 'rgb(51, 204, 255)' },
+                { title: "Planejamento e Organização", description: "Capacidade de manter as coisas em ordem, controlar e colocar estrutura. Benefícios: Formular e implementar processos e ter excelência no fluxo de trabalho.", percentage: 82.34, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm0 16H5V8h14v11zM7 10h5v2H7v-2z"/></svg>`, color: 'rgb(51, 102, 204)' },
+                { title: "Comunicação", description: "Capacidade de se comunicar verbalmente de forma clara, transmitir ideias através de palavras para indivíduos ou audiências. Benefícios: Explicar conceitos difíceis para o grupo e levar ideias para várias pessoas de maneira clara.", percentage: 84.62, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h14l4 4V4a2 2 0 00-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>`, color: 'rgb(0, 102, 51)' },
+                { title: "Consideração pelos Outros", description: "Capacidade de empatizar e de levar a opinião e o sentimento das outras pessoas em consideração nas interações e nas decisões. Benefícios: Auxiliar pessoas em momentos difíceis e garantir a satisfação da equipe com o ambiente de trabalho.", percentage: 80.07, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`, color: 'rgb(51, 153, 102)' },
+                { title: "Influência", description: "Capacidade de persuadir outras pessoas a se comportar de maneira diferente do que fariam sem intervenção. Benefícios: Vender ideias para clientes internos e externos e conquistar recursos para a realização dos projetos.", percentage: 77.80, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h11c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/></svg>`, color: 'rgb(102, 204, 153)' },
+                { title: "Sociabilidade", description: "Capacidade de interagir e criar relacionamento com pessoas diferentes, facilidade em ambientes sociais. Benefícios: Criar networking com stakeholders e conectar pessoas.", percentage: 77.80, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`, color: 'rgb(153, 204, 51)' },
+                { title: "Facilitação", description: "Capacidade de entender situações sociais, colaborar e solucionar conflitos de maneira harmoniosa. Benefícios: Solucionar conflitos organizacionais e garantir o trabalho em equipe de um time.", percentage: 79, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 12c0-2.21-1.79-4-4-4s-4 1.79-4 4 1.79 4 4 4 4-1.79 4-4zm-13 0c0-2.21-1.79-4-4-4S.5 9.79.5 12s1.79 4 4 4 4-1.79 4-4z"/><path d="M14.5 18c-1.1 0-2.12.25-3 .68-.88-.43-1.9-.68-3-.68-2.21 0-4 1.79-4 4h14c0-2.21-1.79-4-4-4z"/></svg>`, color: 'rgb(204, 255, 102)' },
+                { title: "Flexibilidade", description: "Capacidade de adaptar-se a diferentes ambientes de maneira sutil. Benefícios: Performar mais rapidamente após mudanças e poder ser realocado com maior facilidade.", percentage: 91.43, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.78 12.38a1 1 0 00-1.56 0l-4.22 5.85a1 1 0 00.78 1.62h8.44a1 1 0 00.78-1.62l-4.22-5.85zM4.22 11.62a1 1 0 001.56 0l4.22-5.85a1 1 0 00-.78-1.62H1.78a1 1 0 00-.78 1.62l4.22 5.85z"/></svg>`, color: 'rgb(255, 204, 51)' },
+                { title: "Estabilidade Emocional", description: "Capacidade de manter a calma em situações de pressão e de controlar altos e baixos emocionais. Benefícios: Manter a equipe focada durante turbulências e manter o trabalho andando mesmo com muitas interferências externas.", percentage: 82.34, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm-2-8h4v2H10v-2z"/></svg>`, color: 'rgb(204, 102, 51)' },
+                { title: "Ambição", description: "Capacidade de automotivar-se na busca de altos padrões e de crescimento. Benefícios: Buscar sempre a excelência nos projetos e ter como referência apenas os melhores.", percentage: 66.43, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l-4-4-4 4h3v8H8v2h8v-2h-3V6h3z"/></svg>`, color: 'rgb(255, 102, 0)' },
+                { title: "Iniciativa", description: "Capacidade de iniciar ações sem a necessidade de intervenção de terceiros, tomar a frente. Benefícios: Agir mesmo quando a orientação não é clara e ter um output de execução maior.", percentage: 86.88, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l-10 20h20L12 2zm0 4.24L17.76 18H6.24L12 6.24z"/></svg>`, color: 'rgb(255, 153, 0)' },
+                { title: "Assertividade", description: "Capacidade de colocar as suas ideias de forma direta, não se deixar intimidar pelo ambiente. Benefícios: Colocar na mesa opiniões que outras pessoas acabam evitando e aumentar a eficiência na comunicação.", percentage: 79, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`, color: 'rgb(255, 204, 0)' },
+                { title: "Tomada de Riscos", description: "Prefere lidar com comprovações e mais informações para tomar decisões. Benefícios: Agir contra o status quo de maneira a garantir que a organização não se acomode.", percentage: 64.16, icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3C1.9 3 1 3.9 1 5v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7 17H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg>`, color: 'rgb(255, 255, 153)' },
+                // From CultureFeedback.pdf (Cultural Profile) - these don't have percentages
+                { title: "Foco Interno e Integração", description: "Tendência a ter grande foco nas pessoas, buscando desenvolver o capital humano e garantir um alinhamento forte entre todos os presentes." },
+                { title: "Foco Externo e Diferenciação", description: "Tendência a ter grande foco em seus clientes. Buscando melhorias para atender as necessidades daqueles que adquirem seus produtos. Tais melhorias podem ser tanto processuais, de forma a aumentar a produtividade ou reduzir custos, quanto incrementais, de forma a adicionar algo ao produto ofertado." },
+                { title: "Estabilidade e Controle", description: "Tendência a ter uma estrutura mais vertical e centralizada. Além de processos mais definidos, eles constroem ambientes mais estáveis." },
+                { title: "Flexibilidade e Liberdade", description: "Tendência a ter uma estrutura mais horizontal e descentralizada. Além de processos menos definidos eles constituem ambientes mais dinâmicos." }
+            ];
+
+            // Data for the Radar Chart (all quantifiable characteristics)
+            const quantifiableSkillsForRadar = allQualitiesData.filter(q => q.percentage !== undefined && q.percentage !== -1);
+            const radarChartLabels = quantifiableSkillsForRadar.map(q => q.title);
+            const radarChartData = quantifiableSkillsForRadar.map(q => q.percentage);
+            const radarPointColors = quantifiableSkillsForRadar.map(q => q.color);
+
+            const radarCtx = document.getElementById('qualitiesRadarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: radarChartLabels,
+                    datasets: [{
+                        label: 'Nível de Característica',
+                        data: radarChartData,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 0.8)',
+                        pointBackgroundColor: radarPointColors,
+                        pointBorderColor: radarPointColors, // No white border
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: (context) => context.dataset.pointBorderColor[context.dataIndex],
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false // Hiding legend as points are now self-explanatory
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const originalData = quantifiableSkillsForRadar[context.dataIndex];
+                                    return `${originalData.title}: ${originalData.percentage.toFixed(2)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(120, 113, 108, 0.3)'
+                            },
+                            grid: {
+                                color: 'rgba(120, 113, 108, 0.3)'
+                            },
+                            pointLabels: {
+                                color: '#44403c',
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            min: 40,
+                            max: 100,
+                            ticks: {
+                                backdropColor: 'transparent',
+                                color: '#44403c',
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- START: INFINITE CAROUSEL LOGIC ---
+            const qualitiesCarouselTrack = document.querySelector('#my-qualities-perceptions .carousel-track');
+            const carouselContainer = document.querySelector('.highlights-carousel-container');
+            const sortedQualities = [...quantifiableSkillsForRadar].sort((a, b) => b.percentage - a.percentage);
+            const top12QualitiesForCarousel = sortedQualities.slice(0, 12);
+            const originalCardsData = top12QualitiesForCarousel;
+
+            if (originalCardsData.length > 0) {
+                let currentCarouselIndex;
+                let isTransitioning = false;
+
+                const allCardsData = [...originalCardsData, ...originalCardsData, ...originalCardsData];
+
+                allCardsData.forEach((quality) => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'highlight-card';
+                    
+                    cardElement.innerHTML = `
+                        <div class="flex items-center mb-2" style="color: ${quality.color};">
+                            ${quality.icon}
+                            <h3 class="ml-2">${quality.title}</h3>
+                        </div>
+                        <p>${quality.description}</p>
+                    `;
+                    qualitiesCarouselTrack.appendChild(cardElement);
+                });
+
+                const cards = qualitiesCarouselTrack.querySelectorAll('.highlight-card');
+                currentCarouselIndex = originalCardsData.length;
+
+                function updateQualitiesCarousel(withTransition = true) {
+                    if (!cards.length) return;
+                    qualitiesCarouselTrack.style.transition = withTransition ? 'transform 0.5s ease-in-out' : 'none';
+                    const containerWidth = carouselContainer.offsetWidth;
+                    const activeCard = cards[currentCarouselIndex];
+                    if (!activeCard) return;
+                    const cardWidth = activeCard.offsetWidth;
+                    const cardOffsetLeft = activeCard.offsetLeft;
+                    const translateXValue = (containerWidth / 2) - (cardOffsetLeft + cardWidth / 2);
+                    qualitiesCarouselTrack.style.transform = `translateX(${translateXValue}px)`;
+                    cards.forEach((card, index) => {
+                        card.classList.toggle('active', index === currentCarouselIndex);
+                    });
+                }
+
+                qualitiesCarouselTrack.addEventListener('transitionend', () => {
+                    isTransitioning = false;
+                    if (currentCarouselIndex >= originalCardsData.length * 2) {
+                        currentCarouselIndex = originalCardsData.length;
+                        updateQualitiesCarousel(false);
+                    }
+                    if (currentCarouselIndex < originalCardsData.length) {
+                         currentCarouselIndex = originalCardsData.length * 2 -1;
+                         updateQualitiesCarousel(false);
+                    }
+                });
+
+                function nextQualitiesCard() {
+                    if (isTransitioning) return;
+                    isTransitioning = true;
+                    currentCarouselIndex++;
+                    updateQualitiesCarousel(true);
+                }
+                
+                setTimeout(() => {
+                    updateQualitiesCarousel(false);
+                    setInterval(nextQualitiesCard, 5000);
+                }, 100);
+
+                window.addEventListener('resize', () => updateQualitiesCarousel(false));
+            }
+            // --- END: INFINITE CAROUSEL LOGIC ---
+
+            // Data for the "Percepções sobre meu Trabalho" section
+            const perceptionsData = [
+                { title: "Pessoa super prestativa e resolutiva", text: "Renato é uma pessoa super prestativa e resolutiva, conseguindo avançar com vários aspectos de dados e monitorias super importantes para a área. Vem fazendo um bom trabalho e caminhando para se tornar destaque no time." },
+                { title: "Ponto focal de dados e educador", text: "A forma como percebemos que os dados são fundamentais e indispensáveis, foi devido a ele. Junto a ele, podemos bater no pedido democratização dos dados, pois sem eles, nossa área é muito defasada. Ele é nosso ponto focal de dados e ensina muito bem todos que pedem ajuda." },
+                { title: "Rápido aprendizado e busca por soluções", text: "Em pouco tempo de área conseguiu entender a atividade que foi proposta a ele e passou a executar muito bem. Busca aprender coisas novas para contornar as situações adversas que aparecem durante a execução das atividades. Continua assim que vai longe!" },
+                { title: "Protagonismo e impacto na área", text: "Atuou com protagonismo na frente de dados na área durante o ano de 2023. Criou painéis gerais da área. Criou parceria com o time de MIS. Puxou a frente da conta consumer da área. Uma boa prática é dividir mais os conhecimentos que possui para equalizar o conhecimento que possui. Destacou-se em relação ao grupo." },
+                { title: "Pró-atividade e responsabilidade", text: "O Renato é um analista extremamente pró ativo e trabalha de forma responsável com as demandas que são confiadas a ele. Sempre propondo melhorias e criticando de forma construtiva o que já está feito. Com base na sua atuação, considero que ele se destaca entre os demais Juniors." },
+                { title: "Analista diferenciado e colaborativo", text: "Renato é um analista diferenciado. Sempre disposto a apoiar os companheiros e trazendo as melhores soluções sustentáveis para a área." },
+                { title: "Curva de aprendizado acentuada e orientação a resultados", text: "Renato está a pouco tempo no time mas com uma curva de aprendizado bastante acentuada. Bastante questionador, com um perfil de quem busca a resolução, persegue o resultado. Suas contribuições foram valiosas para estruturar um hub onde todo o time que monitora as modalidades de cartão presente e não presente utilizam para acompanhar movimentações no portfólio diariamente. Os objetivos de nutrir o time de informações com agilidade e assertividade foram alcançados em 2022, se aprofundar no conhecimento de modalidades, otimizar visões de legado e ampliar o escopo de atuação vão acelerar o desenvolvimento." }
+            ];
+
+            const perceptionsGrid = document.querySelector('#perceptions .perceptions-grid'); 
+            perceptionsData.forEach(p => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'perception-card'; /* Using the new class for styling */
+                cardElement.innerHTML = `
+                    <h3>${p.title}</h3>
+                    <p>&ldquo;${p.text}&rdquo;</p>
+                `;
+                perceptionsGrid.appendChild(cardElement);
             });
         });
     </script>
