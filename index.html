@@ -24,7 +24,7 @@
             background-color: #f9fafb; /* gray-50 */
         }
         .header-bg {
-            background-image: url('https://storage.googleapis.com/gemini-prod/images/48c7734c-069a-4e43-8515-3165b6d525f3');
+            background-image: url('https://pages.awseducate.com/rs/773-JYK-169/images/Pattern_LinkedinBanner.png');
             background-size: cover;
             background-position: center;
         }
@@ -170,42 +170,140 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .portfolio-carousel-container {
+        .portfolio-carousel-container, .certifications-carousel-container {
             position: relative;
             overflow: hidden;
-            padding: 1rem 0;
+            padding: 2rem 0;
             display: flex;
             align-items: center;
             border-radius: 0.5rem;
             background-color: #f5f5f4; /* stone-100 */
         }
+        
         .portfolio-card {
             flex-shrink: 0;
-            width: 320px; /* A bit wider for project cards */
             margin: 0 15px;
             padding: 1.5rem;
             box-sizing: border-box;
-            border-radius: 0.75rem; /* More rounded corners */
+            border-radius: 0.75rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
             transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.5s ease-in-out, background-color 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
+            background-color: #e7e5e4; /* stone-200 */
+            opacity: 0.4;
+            transform: scale(0.85);
+            filter: blur(3px);
+            width: 320px;
             justify-content: space-between;
             text-align: left;
-            min-height: 240px; /* Increased height */
-            background-color: #e7e5e4; /* stone-200 */
-            opacity: 0.5;
-            transform: scale(0.9);
-            filter: blur(3px);
+            min-height: 240px;
             border-top: 4px solid transparent;
         }
-        .portfolio-card.active {
+        
+        .certification-card {
+            flex-shrink: 0;
+            margin: 0 15px;
+            box-sizing: border-box;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.5s ease-in-out, background-color 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            background-color: #e7e5e4; /* stone-200 */
+            opacity: 0.4;
+            transform: scale(0.85);
+            filter: blur(3px);
+            width: 240px;
+            height: 280px;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .portfolio-card.active, .certification-card.active {
             opacity: 1;
-            transform: scale(1.05);
+            transform: scale(1);
             filter: blur(0);
             background-color: #ffffff;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+        .certification-card.active {
+             transform: scale(1.05);
+        }
+        .certification-card img {
+            max-width: 120px;
+            max-height: 120px;
+            object-fit: contain;
+            transition: all 0.4s ease-in-out;
+        }
+        .certification-card.active img {
+            max-width: 130px;
+            max-height: 130px;
+        }
+        
+        .certification-skills {
+            transition: opacity 0.4s ease-in-out 0.2s, max-height 0.4s ease-in-out 0.2s, margin-top 0.4s ease-in-out 0.2s;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            text-align: center;
+            margin-top: 0;
+        }
+        .certification-card.active .certification-skills {
+            opacity: 1;
+            max-height: 200px;
+            margin-top: 0.75rem;
+        }
+        .certification-skills ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #4b5563; /* gray-600 */
+        }
+        .certification-skills li {
+            margin-bottom: 0.25rem;
+            background-color: #e5e7eb;
+            padding: 0.125rem 0.6rem;
+            border-radius: 9999px;
+            display: inline-block;
+            margin: 0.25rem;
+            font-weight: 500;
+            font-size: 0.65rem;
+        }
+
+        .certification-card.in-progress img {
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: #3b82f6;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+
         .code-block-wrapper {
             overflow-x: auto;
             /* Custom scrollbar for better visibility on dark background */
@@ -374,9 +472,9 @@
         
         <header class="relative text-center mb-16 rounded-lg overflow-hidden header-bg">
             <div class="header-overlay py-12 px-4">
-                 <div class="relative z-10">
+                <div class="relative z-10">
                     <h1 class="text-4xl md:text-5xl font-bold text-white">Renato Assis Schiavon Parente</h1>
-                    <p class="mt-2 text-xl md:text-2xl text-blue-300 font-medium">Engenheiro de Analytics | AWS | PySpark | Python | SQL |</p>
+                    <p class="mt-2 text-xl md:text-2xl text-blue-300 font-medium">Analista de Dados | AWS | PySpark | Python | SQL |</p>
                     <div class="mt-6 flex justify-center items-center flex-wrap gap-x-4 gap-y-2">
                         <a href="tel:+5511999945133" class="text-white hover:bg-white/20 flex items-center transition-colors rounded-full px-4 py-2">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -405,10 +503,10 @@
                         </div>
                         <div class="space-y-4 text-stone-600 leading-relaxed">
                             <p>
-                                Profissional com 4 anos de experiência no Itaú Unibanco, especializado na <strong>transformação de dados brutos em insights acionáveis e produtos de dados</strong>. Minha carreira combina uma base sólida em engenharia de analytics com uma paixão por entender o negócio e o cliente, construindo soluções que geram valor real.
+                                <strong>Analista de Dados</strong> com 4 anos de experiência no Itaú Unibanco e sólida proficiência em todo o ecossistema de dados. Em transição de carreira para a área de <strong>Engenharia de Dados</strong>, busco aplicar meu conhecimento na construção de pipelines robustos, escaláveis e de alta performance.
                             </p>
                             <p>
-                                Com proficiência em <strong>AWS, Python, SQL e PySpark</strong>, e experiência em <strong>estratégia de produto, pesquisa de usuário e metodologias ágeis</strong>, atuo na intersecção entre tecnologia e negócio, garantindo que as decisões sejam orientadas por dados e focadas no sucesso do produto.
+                                Minha experiência abrange o desenvolvimento e a otimização de pipelines de dados complexos utilizando <strong>AWS (Glue, S3, Redshift, EMR), Python, SQL e PySpark</strong>. Sou especializado em transformar grandes volumes de dados brutos em soluções performáticas e seguras, garantindo a qualidade e a disponibilidade da informação para suportar decisões estratégicas de negócio.
                             </p>
                         </div>
                     </div>
@@ -437,6 +535,14 @@
                     <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 mb-6">Projetos Destacados</h2>
                     <p class="text-stone-600 mb-10 -mt-2">Explore alguns dos projetos em que utilizei minhas habilidades de Engenharia e Gestão de Produto.</p>
                     <div id="projects-container" class="space-y-4"></div>
+                </section>
+
+                <section id="certifications" class="section-fade-in">
+                    <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 mb-6">Certificações e Conquistas</h2>
+                    <p class="text-stone-600 mb-10 -mt-2">Minhas principais certificações e badges reconhecidos na indústria.</p>
+                    <div class="certifications-carousel-container">
+                        <div id="certifications-carousel-track" class="carousel-track"></div>
+                    </div>
                 </section>
                 
             </main>
@@ -480,13 +586,6 @@
                             <p class="text-stone-600">Bacharelado em Ciência e Tecnologia, Engenharia</p>
                             <p class="text-sm text-stone-500 mt-1">2019 - 2025</p>
                         </div>
-                    </div>
-                </section>
-
-                <section id="certifications" class="section-fade-in">
-                    <h2 class="text-2xl font-semibold border-b-2 border-blue-200 pb-2 mb-4">Certificações</h2>
-                    <div id="certifications-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Certifications will be injected here by JavaScript -->
                     </div>
                 </section>
 
@@ -552,17 +651,17 @@
                 <h2 class="text-3xl font-bold border-b-2 border-blue-200 pb-2 mb-6">Contato</h2>
                 <div class="bg-white p-6 rounded-lg shadow-md flex justify-center items-center flex-wrap gap-x-6 gap-y-4">
                      <a href="tel:+5511999945133" class="text-stone-700 hover:text-blue-600 flex items-center transition-colors">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        (11) 99994-5133
-                    </a>
-                    <a href="mailto:renatoassisparente@gmail.com" class="text-stone-700 hover:text-blue-600 flex items-center transition-colors">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        renatoassisparente@gmail.com
-                    </a>
-                    <a href="https://www.linkedin.com/in/renato-assis-schiavon-parente-a323011b3" target="_blank" rel="noopener noreferrer" class="text-stone-700 hover:text-blue-600 flex items-center transition-colors">
-                        <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg>
-                        LinkedIn
-                    </a>
+                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                         (11) 99994-5133
+                     </a>
+                     <a href="mailto:renatoassisparente@gmail.com" class="text-stone-700 hover:text-blue-600 flex items-center transition-colors">
+                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                         renatoassisparente@gmail.com
+                     </a>
+                     <a href="https://www.linkedin.com/in/renato-assis-schiavon-parente-a323011b3" target="_blank" rel="noopener noreferrer" class="text-stone-700 hover:text-blue-600 flex items-center transition-colors">
+                         <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg>
+                         LinkedIn
+                     </a>
                 </div>
             </section>
         </div>
@@ -921,27 +1020,44 @@ falhas_dq.show()`
                 }
             ];
             
-            // --- DATA FOR CERTIFICATIONS ---
-            const certificationsData = [
-                { 
-                    name: "Analytics Engineering", 
-                    img: "https://images.credly.com/images/4bb6709a-e50d-47fa-94d5-0327ccd399bf/image.png" 
+            const certificationsCarouselData = [
+{ 
+                    name: "AWS Certified Data Engineer - Associate", 
+                    img: "https://images.credly.com/images/e5c85d7f-4e50-431e-b5af-fa9d9b0596e7/image.png",
+                    skills: ["Amazon Web Services", "AWS", "Data Ingestion", "Data Management", "Data Security", "Data Storage Technologies", "Data Transformation"],
+                    inProgress: true
+                },
+                                { 
+                    name: "HashiCorp Certified Terraform - Associate", 
+                    img: "https://images.credly.com/size/680x680/images/0dc62494-dc94-469a-83af-e35309f27356/blob",
+                    skills: ["Amazon Web Services", "AWS", "Data Ingestion", "Data Management", "Data Security", "Data Storage Technologies", "Data Transformation"],
+                    inProgress: true
                 },
                 { 
-                    name: "Data Modelling", 
-                    img: "https://images.credly.com/images/dbbbaffb-5117-4da2-9b03-eae604acbf51/image.png" 
+                    name: "AWS Certified Cloud  - Practitioner", 
+                    img: "https://images.credly.com/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png",
+                    skills: ["Amazon Web Services",,"AWS","AWS Certification","AWS Cloud","Cloud Certification","Cloud Computing","Cloud Platform","Cloud Services"],
+                    inProgress: true
+                },
+                { 
+                    name: "Batalha de Dados", 
+                    img: "https://images.credly.com/images/a7e0490e-d2c5-4b8e-abd4-25d950066bda/image.png",
+                    skills: ["Creativity", "Teamwork", "Troubleshooting"]
                 },
                 { 
                     name: "Data Engineering", 
-                    img: "https://images.credly.com/images/27224c08-f61c-4d82-b929-325f96af326a/image.png" 
+                    img: "https://images.credly.com/images/27224c08-f61c-4d82-b929-325f96af326a/image.png",
+                    skills: ["Database Administration", "Data Mining", "ETL"]
                 },
                 { 
-                    name: "Excel Dashboards", 
-                    img: "https://img.icons8.com/color/96/microsoft-excel-2019--v1.png" 
+                    name: "Analytics Engineering", 
+                    img: "https://images.credly.com/images/4bb6709a-e50d-47fa-94d5-0327ccd399bf/image.png",
+                    skills: ["Database Administration", "Data Mining", "ETL"]
                 },
                 { 
-                    name: "Financial Accounting", 
-                    img: "https://img.icons8.com/fluency/96/accounting.png" 
+                    name: "Data Modelling", 
+                    img: "https://images.credly.com/images/dbbbaffb-5117-4da2-9b03-eae604acbf51/image.png",
+                    skills: ["Data Base", "Data Modeling", "Data Normalization"]
                 }
             ];
 
@@ -1020,19 +1136,21 @@ falhas_dq.show()`
                 const container = document.getElementById('tech-stack-container');
                 if (!container) return;
                 const technologyStackData = [
-                    { label: 'AWS', color: 'FF9900', logo: 'amazonaws', logoColor: 'FFFFFF' },
                     { label: 'Python', color: '3776AB', logo: 'python', logoColor: 'FFD43B' },
                     { label: 'SQL', color: '00758F', logo: 'postgresql', logoColor: 'FFFFFF' },
                     { label: 'PySpark', color: 'E25A2C', logo: 'apachespark', logoColor: 'FFFFFF' },
-                    { label: 'ETL', color: '60A5FA', logo: 'apacheairflow', logoColor: 'FFFFFF' },
-                    { label: 'Data Modeling', color: '10B981', logo: 'database', logoColor: 'FFFFFF' },
-                    { label: 'Data Mesh', color: 'FCD34D', logo: 'databricks', logoColor: 'FFFFFF' },
+                    { label: 'Amazon S3', color: '569A31', logo: 'amazons3', logoColor: 'FFFFFF' },
+                    { label: 'AWS Glue', color: '3E8638', logo: 'awsglue', logoColor: 'FFFFFF' },
+                    { label: 'AWS Athena', color: '232F3E', logo: 'amazonathena', logoColor: 'FFFFFF' },
+                    { label: 'Amazon Redshift', color: '8C2D25', logo: 'amazonredshift', logoColor: 'FFFFFF' },
+                    { label: 'Step Functions', color: 'CB218E', logo: 'awsstepfunctions', logoColor: 'FFFFFF' },
+                    { label: 'DynamoDB', color: '4053D6', logo: 'amazondynamodb', logoColor: 'FFFFFF' },
+                    { label: 'AWS Kinesis', color: 'FF4F8B', logo: 'amazonkinesis', logoColor: 'FFFFFF' },
+                    { label: 'AWS SQS', color: 'FF4F8B', logo: 'amazonsqs', logoColor: 'FFFFFF' },
+                    { label: 'EventBridge', color: 'DC4A25', logo: 'amazoneventbridge', logoColor: 'FFFFFF' },
                     { label: 'Tableau', color: 'E97627', logo: 'tableau', logoColor: 'FFFFFF' },
                     { label: 'Power BI', color: 'F2C811', logo: 'powerbi', logoColor: 'FFFFFF' },
-                    { label: 'Quicksight', color: '1D3F59', logo: 'amazonquicksight', logoColor: 'FFFFFF' },
                     { label: 'Git', color: 'F05033', logo: 'git', logoColor: 'FFFFFF' },
-                    { label: 'DataOps', color: '3F51B5', logo: 'docker', logoColor: 'FFFFFF' },
-                    { label: 'Machine Learning', color: '66BB6A', logo: 'tensorflow', logoColor: 'FFFFFF' }
                 ];
                 container.innerHTML = technologyStackData.map(tech => {
                     const badgeLogoColor = tech.logoColor ? `&logoColor=${tech.logoColor}` : '';
@@ -1042,17 +1160,6 @@ falhas_dq.show()`
                             <img src="${badgeUrl}" alt="${tech.label} Badge">
                         </div>`;
                 }).join('');
-            }
-
-            function populateCertifications() {
-                const container = document.getElementById('certifications-container');
-                if (!container) return;
-                container.innerHTML = certificationsData.map(cert => `
-                    <div class="bg-white p-3 rounded-lg shadow-md flex items-center space-x-3">
-                        <img src="${cert.img}" alt="${cert.name}" class="rounded-md w-16 h-16 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/e0e0e0/757575?text=Cert';">
-                        <p class="text-stone-700 font-medium text-xs">${cert.name}</p>
-                    </div>
-                `).join('');
             }
 
             function populatePerceptions() {
@@ -1494,9 +1601,7 @@ falhas_dq.show()`
             // Populate all dynamic sections
             populateExperience();
             populateProjects();
-            // populatePmSkills(); // Removed this call
             populateTechStack();
-            populateCertifications();
             populatePerceptions();
             populateCodeSnippets();
 
@@ -1563,6 +1668,35 @@ falhas_dq.show()`
                         </div>`;
                 },
                 4000
+            );
+
+            setupCarousel(
+                '.certifications-carousel-container',
+                '#certifications-carousel-track',
+                '.certification-card',
+                certificationsCarouselData,
+                (cert) => {
+                    const inProgressClass = cert.inProgress ? 'in-progress' : '';
+                    const loadingOverlayHtml = cert.inProgress ? `
+                        <div class="loading-overlay">
+                            <div class="spinner"></div>
+                        </div>
+                    ` : '';
+                    const skillsListHtml = !cert.inProgress 
+                        ? `<ul>${cert.skills.map(skill => `<li>${skill}</li>`).join('')}</ul>` 
+                        : '<p class="text-xs text-gray-500 italic mt-2">Em andamento...</p>';
+
+                    return `
+                    <div class="certification-card ${inProgressClass}">
+                        ${loadingOverlayHtml}
+                        <img src="${cert.img}" alt="${cert.name} Badge" title="${cert.name}">
+                        <div class="certification-skills">
+                            <h4 class="font-bold text-base mb-2 text-slate-800">${cert.name}</h4>
+                            ${skillsListHtml}
+                        </div>
+                    </div>`;
+                },
+                3500
             );
             
             // Final adjustments
